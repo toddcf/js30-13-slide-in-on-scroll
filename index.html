@@ -43,6 +43,7 @@
   </div>
 
   <script>
+    // Debounce limits how many times per second a function can be invoked:
     function debounce(func, wait = 20, immediate = true) {
       var timeout;
       return function() {
@@ -57,6 +58,35 @@
         if (callNow) func.apply(context, args);
       };
     }
+
+    const sliderImages = document.querySelectorAll('.slide-in');
+
+    function checkSlide(e) {
+      sliderImages.forEach(sliderImage => {
+        // Animate each image when 50% of it is showing:
+        const slideInAt = (window.scrollY + window.innerHeight) - (sliderImage.height / 2);
+        // Animate back out when scrolled up:
+        // Calculate how far the image is from the top of the screen, plus the height of the image:
+        const imageBottom = sliderImage.offsetTop + sliderImage.height;
+
+        // Confirm that the slide in value is greater than where the top of the image is:
+        const isHalfShown = slideInAt > sliderImage.offsetTop;
+
+        // Check that user has not scrolled all the way past the image:
+        const isNotScrolledPast = window.scrollY < imageBottom;
+
+        // If the image is half shown and not scrolled past, animate it:
+        if (isHalfShown && isNotScrolledPast) {
+          sliderImage.classList.add('active');
+        }
+        // Otherwise, hide it again:
+        else {
+          sliderImage.classList.remove('active');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', debounce(checkSlide));
 
   </script>
 
