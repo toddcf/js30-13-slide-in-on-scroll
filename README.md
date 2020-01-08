@@ -1,1 +1,2 @@
-# js30-13-slide-in-on-scroll
+# JavaScript 30 #13: Slide in on Scroll
+
